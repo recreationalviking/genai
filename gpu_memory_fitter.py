@@ -18,10 +18,15 @@ class GPUMemoryFitter:
     and running a model, but this fitter ends up refusing to generate a usable
     device_map for your hardware configuration.
 
-    This class relies on the use of nvidia-smi. If you don't run nvidia cards,
-    this class will not work for you. I simply don't know how these kinds of
-    things show up on non-nvidia tools, I'm happy to add other platform equivs if
+    This class is semi-topology aware through the use of nvidia-smi. Therefore, 
+    this class relies on the use of nvidia-smi. If you don't run nvidia cards,
+    this code will not (likely?) work for you. I don't know how the necessary 
+    values show up on non-nvidia tools, I'm happy to add other platform equiv if
     someone can show me what outputs or calls will work to get the same info.
+
+    The topology awareness makes this fitter better in multi-user or mixed nvlink
+    topologies. I've got 3 A6000 cards and two are connected via NVLink. I would
+    not want to use an NVLink card if my model fits in a single non-NVLink card.
     
     Attributes:
         mem_per_billion_params (float): Memory required per billion model parameters.
